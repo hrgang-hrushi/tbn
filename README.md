@@ -1,6 +1,5 @@
 # Framer-site (scaffolded port)
 
-This is a small Vite + React scaffold to port the Framer site at https://teenbusinessnetwork.framer.website/ into a maintainable codebase.
 
 Quick start:
 
