@@ -19,6 +19,7 @@ const item = {
 }
 
 export default function Hero(){
+  const heroWide = import.meta.env.BASE_URL + 'assets/hero-wide.jpg';
   return (
     <motion.section className="hero" variants={container} initial="hidden" animate="show">
       <motion.h1 variants={item} style={{ margin: 0, color: '#ffffff' }}>
@@ -62,7 +63,7 @@ export default function Hero(){
           <div className="hero-glow-left"></div>
           <div className="hero-glow-right"></div>
           <img
-            src="/assets/hero-wide.jpg"
+            src={heroWide}
             alt="Hero visual"
             className="hero-picture"
           />
