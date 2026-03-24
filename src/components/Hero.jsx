@@ -19,7 +19,21 @@ const item = {
 }
 
 export default function Hero(){
-  const heroWide = import.meta.env.BASE_URL + 'assets/hero-wide.jpg';
+  // Ensure the path has a leading slash so it resolves correctly whether
+  // BASE_URL is set or empty/relative. This prevents broken image links
+  // when the app is served from a subpath or when BASE_URL is an empty string.
+  // Build the asset URL relative to the app base. This covers both cases:
+  // - app is served from the site root (BASE_URL = '/')
+  // - app is served from a subpath (BASE_URL = '/subpath/')
+  // import.meta.env.BASE_URL is provided by Vite and may be an empty string,
+  // so fallback to '/'. Ensure the returned URL always has one leading slash
+  // and exactly one trailing slash before appending the asset path.
+  const rawBase = import.meta.env.BASE_URL || '/';
+  const normalizedBase = rawBase.startsWith('/') ? rawBase : `/${rawBase}`;
+  const base = normalizedBase.endsWith('/') ? normalizedBase : `${normalizedBase}/`;
+  // Use the hero-wide asset in `public/assets` so existing paths remain valid.
+  // The PNG was copied to `hero-wide.jpg` for consistency with earlier code.
+  const heroWide = `${base}assets/hero-wide.jpg`;
   return (
     <motion.section className="hero" variants={container} initial="hidden" animate="show">
       <motion.h1 variants={item} style={{ margin: 0, color: '#ffffff' }}>
@@ -60,13 +74,14 @@ export default function Hero(){
       </motion.div>
         {/* Picture section under reviews */}
         <div className="hero-picture-section">
-          <div className="hero-glow-left"></div>
-          <div className="hero-glow-right"></div>
-          <img
-            src={heroWide}
-            alt="Hero visual"
-            className="hero-picture"
-          />
+            <div className="hero-glow-left"></div>
+            <div className="hero-glow-right"></div>
+            <img
+              src={heroWide}
+              alt="Hero visual"
+              className="hero-picture"
+              loading="lazy"
+            />
         </div>
     </motion.section>
   )
